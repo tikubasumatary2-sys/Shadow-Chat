@@ -100,46 +100,36 @@ function playSend() {
   s.currentTime = 0;
   s.play().catch(() => {});
 }
-</script>
-  function sendMessage() {
-    // your existing send logic
 
-    document.getElementById("sendSound").play();
+  <script>
+let chatBox = document.getElementById("chat");
+let messages = JSON.parse(localStorage.getItem("shadowMessages")) || [];
+
+function render() {
+  chatBox.innerHTML = "";
+  messages.forEach(m => {
+    let div = document.createElement("div");
+    div.className = "msg " + (m.user === "me" ? "me" : "");
+    div.innerText = m.text;
+    chatBox.appendChild(div);
+  });
+  chatBox.scrollTop = chatBox.scrollHeight;
 }
-  document.getElementById("receiveSound").play();
-  let chatBox = document.getElementById("chat");
 
-  // Load messages from browser storage
-  let messages = JSON.parse(localStorage.getItem("shadowMessages")) || [];
+function sendMsg() {
+  let input = document.getElementById("msg");
+  let text = input.value;
 
-  function render() {
-    chatBox.innerHTML = "";
-    messages.forEach(m => {
-      let div = document.createElement("div");
-      div.className = "msg " + (m.user === "me" ? "me" : "");
-      div.innerText = m.text;
-      chatBox.appendChild(div);
-    });
+  if (!text) return;
 
-    chatBox.scrollTop = chatBox.scrollHeight;
-  }
+  messages.push({ text: text, user: "me" });
+  localStorage.setItem("shadowMessages", JSON.stringify(messages));
 
-  function sendMsg() {
-    let input = document.getElementById("msg");
-    let text = input.value;
-
-    if (!text) return;
-
-    messages.push({ text: text, user: "me" });
-
-    // save locally
-    localStorage.setItem("shadowMessages", JSON.stringify(messages));
-
-    input.value = "";
-    render();
-  }
-
+  input.value = "";
   render();
+}
+
+render();
 </script>
 <audio id="sendSound" src="send.mp3" preload="auto"></audio>
 <audio id="receiveSound" src="receive.mp3" preload="auto"></audio>
