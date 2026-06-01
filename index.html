@@ -81,6 +81,12 @@
 </div>
 
 <script>
+function sendMessage() {
+    // your existing send logic
+
+    document.getElementById("sendSound").play();
+}
+  document.getElementById("receiveSound").play();
   let chatBox = document.getElementById("chat");
 
   // Load messages from browser storage
