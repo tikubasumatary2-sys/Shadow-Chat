@@ -81,7 +81,20 @@
 </div>
 
 <script>
-<script>
+const socket = new WebSocket("ws://localhost:8080");
+
+socket.onmessage = (event) => {
+  let msg = JSON.parse(event.data);
+
+  messages.push(msg);
+  localStorage.setItem("shadowMessages", JSON.stringify(messages));
+
+  render();
+
+  if (msg.user !== "me") {
+    playReceive();
+  }
+};
 function playSend() {
   const s = document.getElementById("sendSound");
   s.currentTime = 0;
