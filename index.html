@@ -81,7 +81,14 @@
 </div>
 
 <script>
-function sendMessage() {
+<script>
+function playSend() {
+  const s = document.getElementById("sendSound");
+  s.currentTime = 0;
+  s.play().catch(() => {});
+}
+</script>
+  function sendMessage() {
     // your existing send logic
 
     document.getElementById("sendSound").play();
